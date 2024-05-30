@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Program Pengolahan Nama Keluarga</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1f1f1;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+    
+        .container {
+            max-width: 600px;
+            width: 90%;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            overflow-y: auto;
+        }
+    
+        input[type="number"], input[type="text"] {
+            width: calc(100% - 40px);
+            padding: 10px;
+            margin: 10px auto;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: block;
+        }
+    
+        button {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px auto;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            display: block;
+        }
+    
+        .output {
+            margin-top: 20px;
+            text-align: left;
+        }
+    
+        p {
+            margin: 5px 0;
+        }
+        </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Program Pengolahan Nama Keluarga</h2>
+        <input type="number" id="familyCount" placeholder="Masukkan jumlah anggota keluarga" min="1">
+        <button onclick="askForNames()">Lanjut</button>
+        <div class="output" id="output"></div>
+    </div>
+
+    <script>
+    function askForNames() {
+        var count = document.getElementById('familyCount').value;
+        var output = document.getElementById('output');
+        output.innerHTML = '';
+
+        for (var i = 0; i < count; i++) {
+            output.innerHTML += '<input type="text" id="name' + i + '" placeholder="Masukkan nama anggota keluarga ke-' + (i + 1) + '"><br>';
+        }
+
+        output.innerHTML += '<button onclick="processNames(' + count + ')">Proses</button>';
+    }
+
+    function processNames(count) {
+        var output = document.getElementById('output');
+        var result = '';
+        
+        for (var i = 0; i < count; i++) {
+            var name = document.getElementById('name' + i).value;
+            var reverseName = reverseString(name);
+            var stats = calculateStats(name);
+
+            result += '<p>Nama ke-' + (i + 1) + '</p>' +
+                '<p>Jumlah kata: ' + stats.wordCount + '</p>' +
+                '<p>Jumlah huruf: ' + stats.letterCount + '</p>' +
+                '<p>Jumlah vokal: ' + stats.vowelCount + '</p>' +
+                '<p>Jumlah konsonan: ' + stats.consonantCount + '</p>' +
+                '<p>Kebalikan nama: ' + reverseName + '</p><hr>';
+        }
+        
+        output.innerHTML = result;
+    }
+
+    function reverseString(str) {
+        return str.split('').reverse().join('');
+    }
+
+    function calculateStats(name) {
+        var stats = {
+            wordCount: name.trim().split(/\s+/).length,
+            letterCount: name.replace(/\s/g, '').length,
+            vowelCount: (name.match(/[aeiou]/gi) || []).length,
+            consonantCount: (name.match(/[bcdfghjklmnpqrstvwxyz]/gi) || []).length
+        };
+        return stats;
+    }
+    </script>
+</body>
+
+</html>
